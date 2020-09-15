@@ -26,7 +26,7 @@ This application will OTA update modules from the following repositories:
 + uac_network: [micropython-usmart-network](https://github.com/bensherlock/micropython-usmart-network)
 + uac_localisation: [micropython-usmart-localisation](https://github.com/bensherlock/micropython-usmart-localisation)
 + sleep_manager:
-+ sensor_payload:
++ sensor_payload: [micropython-usmart-sensor-payload](https://github.com/bensherlock/micropython-usmart-sensor-payload)
 
 ## Structure
 
