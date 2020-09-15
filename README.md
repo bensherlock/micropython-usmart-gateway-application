@@ -25,4 +25,22 @@ This application will OTA update modules from the following repositories:
 + uac_modem: [micropython-unm3-pybd](https://github.com/bensherlock/micropython-unm3-pybd)
 + uac_network: [micropython-usmart-network](https://github.com/bensherlock/micropython-usmart-network)
 + uac_localisation: [micropython-usmart-localisation](https://github.com/bensherlock/micropython-usmart-localisation)
-+ sleep:
++ sleep_manager:
++ sensor_payload:
+
+## Structure
+
+```text
+----------------------------------------------------------------         
+    gateway-application                 not ota updateable
+----|-----------------------------------------------------------
+    |-- ota_updater                     ota updateable
+    |-- mainloop
+        |-- uac_network
+            |-- pybd_expansion
+            |-- uac_modem 
+            |-- uac_localisation
+            |-- sleep_manager
+            |-- sensor_payload
+----------------------------------------------------------------
+```
