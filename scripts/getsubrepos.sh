@@ -3,6 +3,9 @@
 # To git clone into non-empty directory:
 # https://stackoverflow.com/a/33695754/209647
 
+# Move out of scripts dir
+cd ..
+
 # mainloop
 cd main/mainloop
 git init .
