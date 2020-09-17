@@ -52,7 +52,8 @@ def load_wifi_config():
         pass
 
     return wifi_config
-	
+
+
 def load_ota_config(module_name):
     """Load OTA Configuration from JSON file."""
     ota_config = None
@@ -64,7 +65,8 @@ def load_ota_config(module_name):
         pass
 
     return ota_config
-    
+
+
 def download_and_install_updates_if_available():
     # Wifi Configuration
     wifi_cfg = load_wifi_config()
@@ -84,7 +86,7 @@ def download_and_install_updates_if_available():
         print("ota_module=" + ota_module)
         ota_cfg = load_ota_config(ota_module)
         if ota_cfg:
-            o = OTAUpdater(ota_cfg['gitrepos']['url'], ota_module)
+            o = OTAUpdater(ota_cfg['gitrepo']['url'], ota_module)
             # download_updates_if_available - Checks version numbers and downloads into next/
             o.download_updates_if_available()
             # apply_pending_updates_if_available - Moves next/ into main/
