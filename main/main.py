@@ -36,6 +36,7 @@ import os
 import pyb
 import machine
 from ota_updater.main.ota_updater import OTAUpdater
+import jotter
 
 # Add your own ota updateable application modules to this list.
 ota_modules = ['mainloop,', 'ota_updater', 'pybd_expansion', 'sensor_payload', 'uac_localisation', 'uac_modem',
@@ -108,10 +109,12 @@ def boot():
 
 def start():
     # Run the application from the MainLoop.
+    jotter.get_jotter().jot("start()", source_file=__name__)
     try:
         import mainloop.main.mainloop as ml
+        jotter.get_jotter().jot("start()::run_mainloop()", source_file=__name__)
         ml.run_mainloop()
-    except:
+    except Exception:
         pass
     
     pass
