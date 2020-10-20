@@ -100,8 +100,9 @@ def download_and_install_updates_if_available():
 
 def boot():
     # Check reason for reset - only update if power on reset
-    if machine.reset_cause() == machine.PWRON_RESET:
-        download_and_install_updates_if_available()
+    #if machine.reset_cause() == machine.PWRON_RESET:
+    #    download_and_install_updates_if_available()
+    # 2020-10-20 Disabled the OTA on POR for Gateway. Initial usage will be a manual update only.
 
     # Start the main application
     start()
@@ -109,10 +110,10 @@ def boot():
 
 def start():
     # Run the application from the MainLoop.
-    jotter.get_jotter().jot("start()", source_file=__name__)
+    #jotter.get_jotter().jot("start()", source_file=__name__)
     try:
         import mainloop.main.mainloop as ml
-        jotter.get_jotter().jot("start()::run_mainloop()", source_file=__name__)
+        #jotter.get_jotter().jot("start()::run_mainloop()", source_file=__name__)
         ml.run_mainloop()
     except Exception:
         pass
