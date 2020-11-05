@@ -115,8 +115,10 @@ def start():
         import mainloop.main.mainloop as ml
         #jotter.get_jotter().jot("start()::run_mainloop()", source_file=__name__)
         ml.run_mainloop()
-    except Exception:
+    except Exception as the_exception:
+        jotter.get_jotter().jot_exception(the_exception)
         pass
+        # Log to file
     
     pass
 
