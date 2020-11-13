@@ -30,6 +30,7 @@
 #
 """MicroPython USMART Jotter."""
 
+import os
 import utime
 
 _jotters = {}
@@ -40,45 +41,64 @@ class Jotter:
 
     def __init__(self, name):
         self._name = name
-        self._filename = "logs/" + name + ".log"
+        self._logs_path = "/sd/logs"
+        self._filename = "/sd/logs/" + name + ".log"
+
+        # make directories
+        try:
+            os.mkdir(self._logs_path)
+        except OSError:
+            pass
 
     def clear(self):
         """Clear the contents"""
-        with open(self._filename, 'w') as f:
-            # Open as overwrite
+        try:
+            with open(self._filename, 'w') as f:
+                # Open as overwrite
+                pass
+        except OSError:
             pass
 
     def jot(self, msg, source_file="", line_no="", function_name=""):
         """Jot an entry. Use source_file==__name__ when you call this function."""
         # exc_info = sys.exc_info()
-        bufsize = 1
-        with open(self._filename, 'a', buffering=bufsize) as f:
-            timestamp_str = "%d-%02d-%02d %02d:%02d:%02d" % utime.localtime()[:6]
-            f.write(timestamp_str + " - ")
-            if source_file:
-                f.write(source_file + " - ")
-            if line_no:
-                f.write(line_no + " - ")
-            if function_name:
-                f.write(function_name + " - ")
-            f.write(msg + "\n")
+        try:
+            bufsize = 1
+            with open(self._filename, 'a', buffering=bufsize) as f:
+                timestamp_str = "%d-%02d-%02d %02d:%02d:%02d" % utime.localtime()[:6]
+                f.write(timestamp_str + " - ")
+                if source_file:
+                    f.write(source_file + " - ")
+                if line_no:
+                    f.write(line_no + " - ")
+                if function_name:
+                    f.write(function_name + " - ")
+                f.write(msg + "\n")
+        except OSError:
+            pass
 
     def jot_exception(self, e):
-        bufsize = 1
-        with open(self._filename, 'a', buffering=bufsize) as f:
-            import sys
-            timestamp_str = "%d-%02d-%02d %02d:%02d:%02d" % utime.localtime()[:6]
-            f.write(timestamp_str + " ")
-            sys.print_exception(e, f)
+        try:
+            bufsize = 1
+            with open(self._filename, 'a', buffering=bufsize) as f:
+                import sys
+                timestamp_str = "%d-%02d-%02d %02d:%02d:%02d" % utime.localtime()[:6]
+                f.write(timestamp_str + " ")
+                sys.print_exception(e, f)
+        except OSError:
+            pass
 
     def print_all_from_jotter(self):
         """Read and print the whole file to stdout."""
-        with open(self._filename, 'r') as f:
-            line = f.readline()
-            while line:
-                l = line.rstrip("\n")
-                print(l)
+        try:
+            with open(self._filename, 'r') as f:
                 line = f.readline()
+                while line:
+                    l = line.rstrip("\n")
+                    print(l)
+                    line = f.readline()
+        except OSError:
+            pass
 
 
 
