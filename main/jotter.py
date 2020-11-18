@@ -32,6 +32,7 @@
 
 import os
 import utime
+from ucollections import deque
 
 _jotters = {}
 
@@ -97,6 +98,22 @@ class Jotter:
                     l = line.rstrip("\n")
                     print(l)
                     line = f.readline()
+        except OSError:
+            pass
+
+    def print_tail_from_jotter(self, n_lines):
+        """Read and print the last n lines to stdout."""
+        try:
+            tail_lines = deque((), n_lines)
+            with open(self._filename, 'r') as f:
+                line = f.readline()
+                while line:
+                    l = line.rstrip("\n")
+                    tail_lines.append(l)
+                    line = f.readline()
+
+            for l in tail_lines:
+                print(l)
         except OSError:
             pass
 
