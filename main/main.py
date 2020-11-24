@@ -35,6 +35,7 @@ import json
 import os
 import pyb
 import machine
+import utime
 from ota_updater.main.ota_updater import OTAUpdater
 import jotter
 
@@ -111,6 +112,29 @@ def boot():
 def start():
     # Run the application from the MainLoop.
     #jotter.get_jotter().jot("start()", source_file=__name__)
+
+    # Debug Modes
+    # https://forum.micropython.org/viewtopic.php?t=6222
+    # Check if USB cable is plugged in to a PC. If so, then we may want to wait a period before launching the program.
+    # If you want to detect if the USB is plugged in to a PC and enumerated, but may or may not have a serial terminal
+    # connection, then inspect the registers directly:
+    usb_cable_connected = False
+    USB_HS = 0x40040000
+    USB_FS = 0x50000000
+    if machine.mem32[USB_HS] & (1 << 19):  # check BSVLD bit
+        # have USB HS connection
+        usb_cable_connected = True
+    if machine.mem32[USB_FS] & (1 << 19):  # check BSVLD bit
+        # have USB FS connection
+        usb_cable_connected = True
+
+    timeout_start = utime.time()
+    if usb_cable_connected:
+        while utime.time() < timeout_start + 60:
+            utime.sleep_ms(10)
+
+    # Now run the mainloop
+
     try:
         import mainloop.main.mainloop as ml
         jotter.get_jotter().jot("start()::run_mainloop()", source_file=__name__)
