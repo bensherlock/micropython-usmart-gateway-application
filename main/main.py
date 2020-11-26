@@ -113,6 +113,10 @@ def start():
     # Run the application from the MainLoop.
     #jotter.get_jotter().jot("start()", source_file=__name__)
 
+    # Red and Green LEDs on during the startup wait period
+    pyb.LED(1).on()
+    pyb.LED(2).on()
+
     # Debug Modes
     # https://forum.micropython.org/viewtopic.php?t=6222
     # Check if USB cable is plugged in to a PC. If so, then we may want to wait a period before launching the program.
@@ -128,13 +132,18 @@ def start():
         # have USB FS connection
         usb_cable_connected = True
 
+    # The above seems to happen even if the USB cable isn't connected to a PC?
+
     timeout_start = utime.time()
     if usb_cable_connected:
-        while utime.time() < timeout_start + 60:
-            utime.sleep_ms(10)
+        while utime.time() < timeout_start + 30:
+            utime.sleep_ms(100)
+
+    # Red and Green LEDs off after the startup wait period
+    pyb.LED(1).off()
+    pyb.LED(2).off()
 
     # Now run the mainloop
-
     try:
         import mainloop.main.mainloop as ml
         jotter.get_jotter().jot("start()::run_mainloop()", source_file=__name__)
