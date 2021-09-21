@@ -204,11 +204,6 @@ def boot():
     # Check battery voltage and if below a set value power off all peripherals and permanently enter deepsleep.
     # Letting the battery run down and repeat brownout/POR damages the PYBD.
 
-    # Initialise pins into low power mode by default.
-    # Application will then reconfigure those which are required later.
-    low_power_pins(disable_3v3=True, disable_leds=True)
-
-
     # Cycle the NM3 power supply on the powermodule
     try:
         import pyb
